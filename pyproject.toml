@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "ricksay"
+version = "0.1.0"
+description = ""
+authors = ["n0nvme <svmpl3nvm3@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.dev-dependencies]
+black = "^18.3-alpha.0"
+bumpversion = "^0.5.3"
+flake8 = "^3.6"
+mypy = "^0.641.0"
+pylint = "^2.2"
+pytest = "^3.10"
+rope = "^0.11.0"
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
