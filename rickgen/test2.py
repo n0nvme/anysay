@@ -4,13 +4,15 @@ imPath = "pickle.png"
 
 im = Image.open(imPath)
 
-half = Image.new("RGBA", tuple([int(d / 11) for d in im.size]))
+factor = 11
+
+half = Image.new("RGBA", tuple([int(d / factor) for d in im.size]))
 
 for i in range(im.size[0]):
     for j in range(im.size[1]):
-        if i % 11 == 0 and j % 11 == 0:
+        if i % factor == 0 and j % factor == 0:
             try:
-                half.putpixel((int(i / 11), int(j / 11)), im.getpixel((i, j)))
+                half.putpixel((int(i / factor), int(j / factor)), im.getpixel((i, j)))
             except:
                 pass
 
