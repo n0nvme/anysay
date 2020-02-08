@@ -14,6 +14,5 @@ for i in range(im.size[0]):
             except:
                 pass
 
-half.show()
 half.save("test4.png")
 
