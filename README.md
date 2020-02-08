@@ -8,7 +8,7 @@ git clone https://github.com/n0nvme/ricksay.git
 cd ricksay
 pyenv local 3.7.4
 poetry install
-poetry run python src
+poetry run test
 ```
 
 
