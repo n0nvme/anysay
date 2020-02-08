@@ -12,4 +12,3 @@ app.spec
 .vscode
 test.py
 .venv
-poetry.lock
