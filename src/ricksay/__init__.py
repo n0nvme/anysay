@@ -4,6 +4,7 @@ import os
 from .say import say
 from .resize import resize
 from .prepare import prepare
+from .say import say
 
 
 def arg_parse():
@@ -15,7 +16,13 @@ def arg_parse():
         nargs="+",
         type=argparse.FileType,
     )
-    parser.add_argument("-s", "--string", default="Hello !!")
+    parser.add_argument(
+        "-s",
+        "--say",
+        help="return random rick with youre string",
+        nargs="+",
+        type=str,
+    )
     args = parser.parse_args()
     return args
 
@@ -24,6 +31,6 @@ def main():
     if args_main.prepare:
         print(args_main.prepare)
         prepare(args_main.prepare)
-    else:
+    if args_main.say:
         say()
-        print(args_main.string)
+        print(args_main.say)
