@@ -30,7 +30,6 @@ def save_ascii(image):
 def prepare(files):
     check_dir()
     for file in [fl._mode for fl in files]:
-        print(file)
         for im_format in IMAGE_FORMATS:
             if re.search(im_format, file):
                 im = Image.open(file)

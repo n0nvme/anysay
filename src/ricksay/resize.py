@@ -115,4 +115,3 @@ if __name__ == "__main__":
     imPath = "/home/tedkon/project/ricksay/rickgen/source/random/pixelcat2.png"
     source_image = Image.open(imPath)
     resize(source_image, True)
-    # alternative_min_pixel_size(source_image)
