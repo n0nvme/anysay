@@ -3,8 +3,8 @@ import re
 
 from PIL import Image
 
-from .resize import resize
-from .image_to_ascii import image_to_ascii
+from resize import resize
+from image_to_ascii import image_to_ascii
 
 
 IMAGE_FORMATS = [r".png$", r".jpg$"]
@@ -38,6 +38,7 @@ def prepare(files):
                 resultfile.save(filename)
                 save_ascii(resultfile)
                 break
+
 
 if __name__ == "__main__":
     check_dir()

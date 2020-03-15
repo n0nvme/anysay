@@ -3,7 +3,7 @@ from PIL import Image
 
 def pixel_size(image):
     listsize = []
-    noise = 2
+    noise = 0
     tempRGB0 = image.getpixel((0, 0))
     min_y = None
     max_y = None
@@ -46,7 +46,7 @@ def pixel_size(image):
 
         count = 0
         listsize_t.sort()
-        if len(listsize_t) > 1:
+        if len(listsize_t) > 3:
             tsize = listsize_t[0]
         else:
             tsize = 0
@@ -65,11 +65,11 @@ def pixel_size(image):
             if maxcount[0] < count:
                 maxcount[0] = count
                 maxcount[1] = tsize
-        if maxcount[1] <= noise :
+        if maxcount[1] <= noise:
             y += 1
         else:
             y += maxcount[1]
-    
+
     listsize.sort()
     tsize = 0
     count = 0
@@ -79,7 +79,7 @@ def pixel_size(image):
             count += 1
         else:
             tsize = size
-            if maxcount[0] < count and tsize > 3:
+            if maxcount[0] < count and tsize > noise:
                 maxcount[0] = count
                 maxcount[1] = tsize
             count = 0
@@ -88,7 +88,7 @@ def pixel_size(image):
 
 def resize(source_image, debug=False, result_name="debug_image.png"):
     print(source_image.size)
-    width, height = source_image.size
+    _, height = source_image.size
     scale_factor = pixel_size(source_image)
     if not scale_factor or height // scale_factor > 65:
         scale_factor = height // 56
