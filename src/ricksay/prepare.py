@@ -1,46 +1,47 @@
-import os 
+import os
 import re
 
 from PIL import Image
 
-from resize import resize
-from image_to_ascii import image_to_ascii
+from .resize import resize
+from .image_to_ascii import image_to_ascii
 
 
 IMAGE_FORMATS = [r".png$", r".jpg$"]
-WORKDIR = os.path.join(os.getenv("HOME"), "project/ricksay/rickgen")
-SOURCEDIR = os.path.join(WORKDIR, 'source')
-RESIZEDIR = os.path.join(WORKDIR, 'ready')
-DONEDIR = os.path.join(os.getenv("HOME"), "project/ricksay/ricks")
+WORKDIR = os.path.join(os.getenv("HOME"), ".config/ricksay")
+SOURCEDIR = os.path.join(WORKDIR, "source")
+RESIZEDIR = os.path.join(WORKDIR, "ready")
+DONEDIR = os.path.join(os.getenv("HOME"), ".config/ricksay/ricks")
 
 
-def check_dir():
-    if not os.path.isdir(RESIZEDIR):
-        os.mkdir(RESIZEDIR)
+def check_dir(dir_path):
+    if not os.path.isdir(dir_path):
+        os.mkdir(dir_path)
 
 
-def save_ascii(image):
+def save_ascii(image, filename):
     result = image_to_ascii(image)
-    ricks = os.listdir(DONEDIR)
-    new_rick = os.path.join(DONEDIR, f"ricks{len(ricks)}")
-    with open(new_rick, 'w') as file:
+    # ricks = os.listdir(DONEDIR)
+    new_rick = os.path.join(DONEDIR, filename)
+    with open(new_rick, "w") as file:
         file.write(result)
 
 
-def prepare(files):
-    check_dir()
-    for file in [fl._mode for fl in files]:
+def prepare(files_path):
+    check_dir(WORKDIR)
+    check_dir(DONEDIR)
+    for file in os.listdir(files_path):
         for im_format in IMAGE_FORMATS:
             if re.search(im_format, file):
-                im = Image.open(file)
+                im = Image.open(os.path.join(files_path, file))
                 resultfile = resize(im)
-                filename = os.path.join(RESIZEDIR, os.path.split(file)[1])
-                resultfile.save(filename)
-                save_ascii(resultfile)
+                # filename = os.path.join(RESIZEDIR, os.path.split(file)[1])
+                # resultfile.save(filename)
+                save_ascii(resultfile, file)
                 break
 
 
 if __name__ == "__main__":
     check_dir()
-    files = os.listdir(os.path.join(os.getenv("HOME"), WORKDIR))
+    files = os.listdir(WORKDIR)
     prepare(files)
