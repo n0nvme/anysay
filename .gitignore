@@ -12,3 +12,7 @@ app.spec
 .vscode
 test.py
 .venv
+src/jpg
+rickgen/ready/*
+rickgen/source/*
+ricks/*
