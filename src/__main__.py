@@ -38,9 +38,11 @@ if __name__ == "__main__":
                 result += f"{s} "
             print(result)
         else:
-            print('~/.config/ricksay/ricks not found\ngenerating default ricks...')
-            prepare(os.path.join(pathlib.Path(__file__).parent.absolute(), '../rickgen'))
-            print('ready')
+            print("~/.config/ricksay/ricks not found\ngenerating default ricks...")
+            prepare(
+                os.path.join(pathlib.Path(__file__).parent.absolute(), "../rickgen")
+            )
+            print("ready")
             say()
             result = ""
             for s in args_main.string:

@@ -39,9 +39,3 @@ def prepare(files_path):
                 # resultfile.save(filename)
                 save_ascii(resultfile, file)
                 break
-
-
-if __name__ == "__main__":
-    check_dir()
-    files = os.listdir(WORKDIR)
-    prepare(files)

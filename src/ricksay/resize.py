@@ -87,13 +87,13 @@ def pixel_size(image):
 
 
 def resize(source_image, debug=False, result_name="debug_image.png"):
-    print(source_image.size)
+    # print(source_image.size)
     _, height = source_image.size
     scale_factor = pixel_size(source_image)
     if not scale_factor or height // scale_factor > 65:
         scale_factor = height // 56
 
-    print(scale_factor)
+    # print(scale_factor)
     half = Image.new("RGBA", tuple([int(d // scale_factor) for d in source_image.size]))
     for i in range(source_image.size[0]):
         for j in range(source_image.size[1]):

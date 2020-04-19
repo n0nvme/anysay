@@ -8,7 +8,13 @@ packages = \
 ['ricksay']
 
 package_data = \
-{'': ['*']}
+{'': ['*'], 'ricksay': ['default_pics/*']}
+
+install_requires = \
+['pillow>=7.0,<8.0', 'sty>=1.0.0-beta.12,<2.0.0']
+
+entry_points = \
+{'console_scripts': ['ricksay = ricksay:main']}
 
 setup_kwargs = {
     'name': 'ricksay',
@@ -23,6 +29,8 @@ setup_kwargs = {
     'package_dir': package_dir,
     'packages': packages,
     'package_data': package_data,
+    'install_requires': install_requires,
+    'entry_points': entry_points,
     'python_requires': '>=3.7,<4.0',
 }
 
