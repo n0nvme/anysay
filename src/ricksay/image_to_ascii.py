@@ -16,7 +16,7 @@ def convert_color_char(rgba0, rgba1):
     return result
 
 
-def image_to_ascii(image):
+def image_to_ascii(image: Image):
     result = ""
     for y in range(0, image.size[1], 2):
         string = ""

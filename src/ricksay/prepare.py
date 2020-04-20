@@ -8,40 +8,63 @@ from .image_to_ascii import image_to_ascii
 
 
 IMAGE_FORMATS = [r".png$", r".jpg$"]
-WORKDIR = os.path.join(os.getenv("HOME"), ".config/ricksay")
-SOURCEDIR = os.path.join(WORKDIR, "source")
-RESIZEDIR = os.path.join(WORKDIR, "ready")
-DONEDIR = os.path.join(os.getenv("HOME"), ".config/ricksay/ricks")
+WORKDIR = os.path.join(os.getenv("HOME"), ".config/anysay/pics")
 
 
-def check_dir(dir_path):
-    if not os.path.isdir(dir_path):
-        os.mkdir(dir_path)
+def check_dir():
+    if not os.path.isdir(WORKDIR):
+        os.makedirs(WORKDIR)
 
 
-def save_ascii(image, filename):
-    result = image_to_ascii(image)
-    # ricks = os.listdir(DONEDIR)
-    new_rick = os.path.join(DONEDIR, filename)
-    with open(new_rick, "w") as file:
-        file.write(result)
+def save_ascii(ascii_image, filename):
+    new_pic = os.path.join(WORKDIR, filename)
+    while os.path.isfile(new_pic):
+        print(
+            f"{filename} is exist. Enter new file name or enter black value to rewrite file:"
+        )
+        new_filename = input()
+        if new_filename == "":
+            break
+        new_pic = os.path.join(WORKDIR, new_filename)
+    with open(new_pic, "w") as file:
+        file.write(ascii_image)
 
 
-def prepare(files_path):
-    check_dir(WORKDIR)
-    check_dir(DONEDIR)
-    for file in os.listdir(files_path):
-        for im_format in IMAGE_FORMATS:
-            if re.search(im_format, file):
-                im = Image.open(os.path.join(files_path, file))
-                resultfile = resize(im)
-                # filename = os.path.join(RESIZEDIR, os.path.split(file)[1])
-                # resultfile.save(filename)
-                save_ascii(resultfile, file)
-                break
+def add_files(files: list, debug=False):
+    check_dir()
+    if type(files) is str:
+        files = [files]
+    for file in files:
+        if os.path.isdir(file):
+            if debug: print([os.path.join(file, f) for f in os.listdir(file)])
+            for file in [os.path.join(file, f) for f in os.listdir(file)]:
+                save_file(file, debug=debug)
+        elif os.path.isfile(file):
+            save_file(file, debug=debug)
+
+
+def prepare_file(file, debug=False):
+    for im_format in IMAGE_FORMATS:
+        if debug: print(file)
+        if re.search(im_format, file, flags=re.IGNORECASE):
+            im = Image.open(file)
+            if type(im.getpixel((0, 0))) is int:
+                im = im.convert('RGBA')
+            width, height = im.size
+            if width > 64 and height > 64:
+                im = resize(im, debug)
+            im = image_to_ascii(im)
+            break
+    return im
+
+
+def save_file(file, debug=False):
+    ascii_image = prepare_file(file, debug=debug)
+    if ascii_image:
+        save_ascii(ascii_image, os.path.split(file)[-1])
 
 
 if __name__ == "__main__":
     check_dir()
     files = os.listdir(WORKDIR)
-    prepare(files)
+    add_files(files)
