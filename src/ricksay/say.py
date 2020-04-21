@@ -7,14 +7,11 @@ def say(debug=False):
 
     if not os.path.exists(pics_path):
         print("NO SUCH PATH")
-        return ""
+        return None
 
     pics = os.listdir(pics_path)
     random_pic = random.randint(0, len(pics) - 1)
     random_pic = f"{pics_path}/{pics[random_pic]}"
 
-    if debug:
-        print(random_pic)
-
     with open(random_pic, "r") as f:
-        return f.read()
+        print(f.read())

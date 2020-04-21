@@ -17,6 +17,7 @@ def check_dir():
 
 
 def save_ascii(ascii_image, filename):
+    print("saving pic")
     new_pic = os.path.join(WORKDIR, filename)
 
     while os.path.isfile(new_pic):
@@ -30,8 +31,8 @@ def save_ascii(ascii_image, filename):
 
         new_pic = os.path.join(WORKDIR, new_filename)
 
-    with open(new_pic, "w") as file:
-        file.write(ascii_image)
+    with open(new_pic, "w") as f:
+        f.write(ascii_image)
 
 
 def add_files(files: list, debug=False):
@@ -39,7 +40,7 @@ def add_files(files: list, debug=False):
 
     if type(files) is str:
         files = [files]
-
+    print(files)
     for file in files:
         if os.path.isdir(file):
             if debug:
@@ -72,9 +73,9 @@ def prepare_file(file, debug=False):
     return im
 
 
-def save_file(file, debug=False):
-
-    ascii_image = prepare_file(file, debug=debug)
+def save_file(filename, debug=False):
+    print("fucking saving fucking file")
+    ascii_image = prepare_file(filename, debug=debug)
 
     if ascii_image:
-        save_ascii(ascii_image, os.path.split(file)[-1])
+        save_ascii(ascii_image, os.path.split(filename)[-1])

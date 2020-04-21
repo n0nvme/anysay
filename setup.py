@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup
 
-package_dir = {"": "src"}
+package_dir = \
+{'': 'src'}
 
-packages = ["ricksay"]
+packages = \
+['ricksay']
 
 package_data = \
 {'': ['*'], 'ricksay': ['default_pics/*']}

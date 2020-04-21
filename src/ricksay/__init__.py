@@ -41,41 +41,49 @@ def main():
         print(args_main)
 
     if args_main.add_files:
+
         if debug:
             print(args_main.add_files)
         add_files(args_main.add_files)
+
     elif args_main.preview:
         print(prepare_file(args_main.preview.name))
+
     elif args_main.string:
+
         pics_path = os.path.join(os.getenv("HOME"), ".config/anysay/pics/")
+
         if os.path.exists(pics_path) and len(os.listdir(pics_path)) > 0:
-            print(say(debug=debug))
+            say(debug=debug)
             result = ""
             for s in args_main.string:
                 result += f"{s} "
             print(result)
+
         else:
+
             print("~/.config/anysay/pics not found\ngenerating default ricks...")
             if debug:
                 print(
                     os.path.normpath(
                         os.path.join(
-                            pathlib.Path(__file__).parent.absolute(), "../picsgen"
+                            pathlib.Path(__file__).parent.absolute(), "../default_pics"
                         )
                     )
                 )
             add_files(
                 os.path.normpath(
-                    os.path.join(pathlib.Path(__file__).parent.absolute(), "../picsgen")
+                    os.path.join(
+                        pathlib.Path(__file__).parent.absolute(), "../default_pics"
+                    )
                 ),
                 debug=debug,
             )
-            if debug:
-                print("ready")
-            print(say(debug=debug))
+            print("ready")
+            say(debug=debug)
             result = ""
-            for s in args_main.string:
-                result += f"{s} "
+
+            result = " ".join(args_main.string)
             print(result)
 
 
