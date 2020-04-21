@@ -1,14 +1,18 @@
 from PIL import Image
 
-    
+
 def pixel_size(image: Image.Image, debug=False, noise=3):
     listsize = []
     tempRGB0 = image.getpixel((0, 0))
-    if debug: print(tempRGB0)
+
+    if debug:
+        print(tempRGB0)
+
     min_y = None
     max_y = None
     height = image.size[1] - 1
     width = image.size[0] - 1
+
     if type(tempRGB0) is not int and len(tempRGB0) > 3:
         for y in range(height):
             sum_x = 0
@@ -18,11 +22,14 @@ def pixel_size(image: Image.Image, debug=False, noise=3):
                 min_y = y
             elif sum_x == 0 and min_y and not max_y:
                 max_y = y - 1
+
     if not min_y:
         min_y = 0
+
     if not max_y:
         max_y = height
     y = min_y
+
     while y + 2 <= max_y:
         listsize_t = []
         for x in range(width):
@@ -74,6 +81,7 @@ def pixel_size(image: Image.Image, debug=False, noise=3):
     tsize = 0
     count = 0
     maxcount = [0, 0]
+
     for size in listsize:
         if tsize == size:
             count += 1
@@ -83,12 +91,16 @@ def pixel_size(image: Image.Image, debug=False, noise=3):
                 maxcount[0] = count
                 maxcount[1] = tsize
             count = 0
-    if debug: print(maxcount)
+
+    if debug:
+        print(maxcount)
+
     return maxcount[1] - 1
 
 
 def resize(source_image: Image.Image, debug=False, result_name="debug_image.png"):
-    if debug: print(source_image.size)
+    if debug:
+        print(source_image.size)
 
     _, height = source_image.size
 
@@ -96,13 +108,19 @@ def resize(source_image: Image.Image, debug=False, result_name="debug_image.png"
     if not scale_factor or height // scale_factor > 65:
         scale_factor = height // 56
 
-    if debug: print(scale_factor)
+    if debug:
+        print(scale_factor)
+
     half = Image.new("RGBA", tuple([int(d // scale_factor) for d in source_image.size]))
+
     for i in range(source_image.size[0]):
         for j in range(source_image.size[1]):
             if i % scale_factor == 0 and j % scale_factor == 0:
                 try:
-                    if debug: print(source_image.getpixel((i, j)))
+
+                    if debug:
+                        print(source_image.getpixel((i, j)))
+
                     half.putpixel(
                         (int(i // scale_factor), int(j // scale_factor)),
                         source_image.getpixel((i, j)),
