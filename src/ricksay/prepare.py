@@ -20,7 +20,7 @@ def save_ascii(ascii_image, filename):
     new_pic = os.path.join(WORKDIR, filename)
     while os.path.isfile(new_pic):
         print(
-            f"{filename} is exist. Enter new file name or enter black value to rewrite file:"
+            f"{filename} is exist. Enter new file name or leave blank to rewrite file:"
         )
         new_filename = input()
         if new_filename == "":
@@ -28,7 +28,6 @@ def save_ascii(ascii_image, filename):
         new_pic = os.path.join(WORKDIR, new_filename)
     with open(new_pic, "w") as file:
         file.write(ascii_image)
-
 
 def add_files(files: list, debug=False):
     check_dir()
@@ -62,9 +61,3 @@ def save_file(file, debug=False):
     ascii_image = prepare_file(file, debug=debug)
     if ascii_image:
         save_ascii(ascii_image, os.path.split(file)[-1])
-
-
-if __name__ == "__main__":
-    check_dir()
-    files = os.listdir(WORKDIR)
-    add_files(files)

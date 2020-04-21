@@ -89,6 +89,7 @@ def pixel_size(image: Image.Image, debug=False, noise=3):
 
 def resize(source_image: Image.Image, debug=False, result_name="debug_image.png"):
     if debug: print(source_image.size)
+
     _, height = source_image.size
 
     scale_factor = pixel_size(source_image, debug=debug)
