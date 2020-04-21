@@ -30,9 +30,3 @@ def image_to_ascii(image: Image):
             string += convert_color_char(rgba0, rgba1)
         result += string + "\n"
     return result
-
-
-if __name__ == "__main__":
-    imPath = "/home/tedkon/Downloads/rik1.png"
-    i = Image.open(imPath)
-    print(image_to_ascii(i))

@@ -6,4 +6,4 @@ COPY . .
 
 RUN python setup.py install
 
-ENTRYPOINT [ "ricksay", "kek" ]
+ENTRYPOINT [ "ricksay", "kek", "-V" ]
