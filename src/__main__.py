@@ -52,7 +52,7 @@ if __name__ == "__main__":
     elif args_main.string:
         pics_path = os.path.join(os.getenv("HOME"), ".config/anysay/pics/")
         if os.path.exists(pics_path) and len(os.listdir(pics_path)) > 0:
-            say()
+            print(say(debug=debug))
             result = ""
             for s in args_main.string:
                 result += f"{s} "
@@ -65,7 +65,7 @@ if __name__ == "__main__":
                 debug=debug
             )
             if debug: print("ready")
-            say()
+            print(say(debug=debug))
             result = ""
             for s in args_main.string:
                 result += f"{s} "

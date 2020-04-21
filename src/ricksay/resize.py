@@ -112,9 +112,3 @@ def resize(source_image: Image.Image, debug=False, result_name="debug_image.png"
         half.save(result_name)
 
     return half
-
-
-if __name__ == "__main__":
-    imPath = "/home/tedkon/project/ricksay/rickgen/source/random/pixelcat2.png"
-    source_image = Image.open(imPath)
-    resize(source_image, True)
