@@ -1,13 +1,13 @@
 import os
-import re
 
+import magic
 from PIL import Image
 
 from .resize import resize
 from .image_to_ascii import image_to_ascii
 
 
-IMAGE_FORMATS = [r".png$", r".jpg$"]
+IMAGE_FORMATS = ['image/png', 'image/jpeg']
 WORKDIR = os.path.join(os.getenv("HOME"), ".config/anysay/pics")
 
 
@@ -54,24 +54,24 @@ def add_files(filesname: list, debug=False):
 
 
 def prepare_file(filename, debug=False):
-    for im_format in IMAGE_FORMATS:
-        if debug:
-            print(filename)
+    file_type = magic.from_file(filename, mime=True)
+    if debug:
+        print(f"{filename}, {file_type}")
 
-        if re.search(im_format, filename, flags=re.IGNORECASE):
-            im = Image.open(filename)
+    if file_type in IMAGE_FORMATS:
+        im = Image.open(filename)
 
-            if type(im.getpixel((0, 0))) is int:
-                im = im.convert("RGBA")
+        if type(im.getpixel((0, 0))) is int:
+            im = im.convert("RGBA")
 
-            width, height = im.size
+        width, height = im.size
 
-            if width > 64 and height > 64:
-                im = resize(im, debug)
-            im = image_to_ascii(im)
-
-            break
-    
+        if width > 64 and height > 64:
+            im = resize(im, debug)
+        im = image_to_ascii(im)
+    else:
+        im = "Invalid file type"
+        
     return im
 
 

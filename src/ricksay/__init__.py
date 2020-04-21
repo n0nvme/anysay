@@ -47,7 +47,7 @@ def main():
         add_files(args_main.add_files)
 
     elif args_main.preview:
-        print(prepare_file(args_main.preview.name))
+        print(prepare_file(args_main.preview.name, debug=debug))
 
     elif args_main.string:
 

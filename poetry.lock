@@ -263,6 +263,14 @@ setuptools = "*"
 six = ">=1.10.0"
 
 [[package]]
+category = "main"
+description = "File type identification using libmagic"
+name = "python-magic"
+optional = false
+python-versions = "*"
+version = "0.4.15"
+
+[[package]]
 category = "dev"
 description = "a python refactoring library..."
 name = "rope"
@@ -324,7 +332,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools"]
 
 [metadata]
-content-hash = "2503f6282e710b122dc31c9610ef8cee045504799d01c64511142c614b880e1c"
+content-hash = "eaaa96165f464bbae2512a1bceb8b18019e9c546a94309fd07b6f1732469e5be"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -462,6 +470,10 @@ pylint = [
 pytest = [
     {file = "pytest-3.10.1-py2.py3-none-any.whl", hash = "sha256:3f193df1cfe1d1609d4c583838bea3d532b18d6160fd3f55c9447fdca30848ec"},
     {file = "pytest-3.10.1.tar.gz", hash = "sha256:e246cf173c01169b9617fc07264b7b1316e78d7a650055235d6d897bc80d9660"},
+]
+python-magic = [
+    {file = "python-magic-0.4.15.tar.gz", hash = "sha256:f3765c0f582d2dfc72c15f3b5a82aecfae9498bd29ca840d72f37d7bd38bfcd5"},
+    {file = "python_magic-0.4.15-py2.py3-none-any.whl", hash = "sha256:f2674dcfad52ae6c49d4803fa027809540b130db1dec928cfbb9240316831375"},
 ]
 rope = [
     {file = "rope-0.11.0.tar.gz", hash = "sha256:a108c445e1cd897fe19272ab7877d172e7faf3d4148c80e7d20faba42ea8f7b2"},
