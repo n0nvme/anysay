@@ -1,15 +1,15 @@
 from PIL import Image
 
-
-def pixel_size(image):
+    
+def pixel_size(image: Image.Image, debug=False, noise=3):
     listsize = []
-    noise = 0
     tempRGB0 = image.getpixel((0, 0))
+    if debug: print(tempRGB0)
     min_y = None
     max_y = None
     height = image.size[1] - 1
     width = image.size[0] - 1
-    if len(image.getpixel((0, 0))) > 3:
+    if type(tempRGB0) is not int and len(tempRGB0) > 3:
         for y in range(height):
             sum_x = 0
             for x in range(width):
@@ -83,22 +83,26 @@ def pixel_size(image):
                 maxcount[0] = count
                 maxcount[1] = tsize
             count = 0
+    if debug: print(maxcount)
     return maxcount[1] - 1
 
 
-def resize(source_image, debug=False, result_name="debug_image.png"):
-    # print(source_image.size)
+def resize(source_image: Image.Image, debug=False, result_name="debug_image.png"):
+    if debug: print(source_image.size)
+
     _, height = source_image.size
-    scale_factor = pixel_size(source_image)
+
+    scale_factor = pixel_size(source_image, debug=debug)
     if not scale_factor or height // scale_factor > 65:
         scale_factor = height // 56
 
-    # print(scale_factor)
+    if debug: print(scale_factor)
     half = Image.new("RGBA", tuple([int(d // scale_factor) for d in source_image.size]))
     for i in range(source_image.size[0]):
         for j in range(source_image.size[1]):
             if i % scale_factor == 0 and j % scale_factor == 0:
                 try:
+                    if debug: print(source_image.getpixel((i, j)))
                     half.putpixel(
                         (int(i // scale_factor), int(j // scale_factor)),
                         source_image.getpixel((i, j)),
@@ -109,9 +113,3 @@ def resize(source_image, debug=False, result_name="debug_image.png"):
         half.save(result_name)
 
     return half
-
-
-if __name__ == "__main__":
-    imPath = "/home/tedkon/project/ricksay/rickgen/source/random/pixelcat2.png"
-    source_image = Image.open(imPath)
-    resize(source_image, True)

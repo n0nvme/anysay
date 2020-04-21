@@ -2,14 +2,14 @@ import os
 import random
 
 
-def say():
-    ricks_path = os.path.join(os.getenv("HOME"), ".config/ricksay/ricks/")
-    if not os.path.exists(ricks_path):
+def say(debug=False):
+    pics_path = os.path.join(os.getenv("HOME"), ".config/anysay/pics/")
+    if not os.path.exists(pics_path):
         print("NO SUCH PATH")
         return ""
-    ricks = os.listdir(ricks_path)
-    random_rick = random.randint(0, len(ricks) - 1)
-    random_rick = f"{ricks_path}/{ricks[random_rick]}"
-    # print(random_rick)
-    with open(random_rick, "r") as f:
-        print(f.read())
+    pics = os.listdir(pics_path)
+    random_pic = random.randint(0, len(pics) - 1)
+    random_pic = f"{pics_path}/{pics[random_pic]}"
+    if debug: print(random_pic)
+    with open(random_pic, "r") as f:
+        return f.read()
