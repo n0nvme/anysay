@@ -17,7 +17,6 @@ def check_dir():
 
 
 def save_ascii(ascii_image, filename):
-    print("saving pic")
     new_pic = os.path.join(WORKDIR, filename)
 
     while os.path.isfile(new_pic):
@@ -35,30 +34,32 @@ def save_ascii(ascii_image, filename):
         f.write(ascii_image)
 
 
-def add_files(files: list, debug=False):
+def add_files(filesname: list, debug=False):
     check_dir()
 
-    if type(files) is str:
-        files = [files]
-    print(files)
-    for file in files:
-        if os.path.isdir(file):
+    if type(filesname) is str:
+        filesname = [filesname]
+
+    for filename in filesname:
+        if os.path.isdir(filename):
             if debug:
-                print([os.path.join(file, f) for f in os.listdir(file)])
+                print([os.path.join(filename, f) for f in os.listdir(filename)])
 
-            for file in [os.path.join(file, f) for f in os.listdir(file)]:
-                save_file(file, debug=debug)
-        elif os.path.isfile(file):
-            save_file(file, debug=debug)
+            for filename in [os.path.join(filename, f) for f in os.listdir(filename)]:
+                save_file(filename, debug=debug)
+        elif os.path.isfile(filename):
+            save_file(filename, debug=debug)
+        else:
+            print(f"Cannot access to {filename}: no such file or directory")
 
 
-def prepare_file(file, debug=False):
+def prepare_file(filename, debug=False):
     for im_format in IMAGE_FORMATS:
         if debug:
-            print(file)
+            print(filename)
 
-        if re.search(im_format, file, flags=re.IGNORECASE):
-            im = Image.open(file)
+        if re.search(im_format, filename, flags=re.IGNORECASE):
+            im = Image.open(filename)
 
             if type(im.getpixel((0, 0))) is int:
                 im = im.convert("RGBA")
@@ -70,11 +71,11 @@ def prepare_file(file, debug=False):
             im = image_to_ascii(im)
 
             break
+    
     return im
 
 
 def save_file(filename, debug=False):
-    print("fucking saving fucking file")
     ascii_image = prepare_file(filename, debug=debug)
 
     if ascii_image:

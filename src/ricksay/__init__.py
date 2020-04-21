@@ -55,9 +55,7 @@ def main():
 
         if os.path.exists(pics_path) and len(os.listdir(pics_path)) > 0:
             say(debug=debug)
-            result = ""
-            for s in args_main.string:
-                result += f"{s} "
+            result = " ".join(args_main.string)
             print(result)
 
         else:
@@ -67,22 +65,20 @@ def main():
                 print(
                     os.path.normpath(
                         os.path.join(
-                            pathlib.Path(__file__).parent.absolute(), "../default_pics"
+                            pathlib.Path(__file__).parent.absolute(), "default_pics"
                         )
                     )
                 )
             add_files(
                 os.path.normpath(
                     os.path.join(
-                        pathlib.Path(__file__).parent.absolute(), "../default_pics"
+                        pathlib.Path(__file__).parent.absolute(), "default_pics"
                     )
                 ),
                 debug=debug,
             )
             print("ready")
             say(debug=debug)
-            result = ""
-
             result = " ".join(args_main.string)
             print(result)
 
