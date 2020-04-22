@@ -1,13 +1,14 @@
 import os
 
 import magic
+from tqdm import tqdm
 from PIL import Image
 
 from .resize import resize
 from .image_to_ascii import image_to_ascii
 
 
-IMAGE_FORMATS = ['image/png', 'image/jpeg']
+IMAGE_FORMATS = ["image/png", "image/jpeg"]
 WORKDIR = os.path.join(os.getenv("HOME"), ".config/anysay/pics")
 
 
@@ -34,18 +35,20 @@ def save_ascii(ascii_image, filename):
         f.write(ascii_image)
 
 
-def add_files(filesname: list, debug=False):
+def add_files(filenames: list, debug=False):
     check_dir()
 
-    if type(filesname) is str:
-        filesname = [filesname]
+    if type(filenames) is str:
+        filenames = [filenames]
 
-    for filename in filesname:
+    for filename in tqdm(filenames):
         if os.path.isdir(filename):
             if debug:
                 print([os.path.join(filename, f) for f in os.listdir(filename)])
 
-            for filename in [os.path.join(filename, f) for f in os.listdir(filename)]:
+            for filename in tqdm(
+                [os.path.join(filename, f) for f in os.listdir(filename)]
+            ):
                 save_file(filename, debug=debug)
         elif os.path.isfile(filename):
             save_file(filename, debug=debug)
@@ -71,7 +74,7 @@ def prepare_file(filename, debug=False):
         im = image_to_ascii(im)
     else:
         im = "Invalid file type"
-        
+
     return im
 
 
