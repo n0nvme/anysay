@@ -34,7 +34,7 @@ def save_ascii(ascii_image, filename):
         f.write(ascii_image)
 
 
-def add_files(filesname: list, debug=False):
+def add_files(filesname: list, debug=False, mac=False):
     check_dir()
 
     if type(filesname) is str:
@@ -46,37 +46,43 @@ def add_files(filesname: list, debug=False):
                 print([os.path.join(filename, f) for f in os.listdir(filename)])
 
             for filename in [os.path.join(filename, f) for f in os.listdir(filename)]:
-                save_file(filename, debug=debug)
+                save_file(filename, debug=debug, mac=mac)
         elif os.path.isfile(filename):
-            save_file(filename, debug=debug)
+            save_file(filename, debug=debug, mac=mac)
         else:
             print(f"Cannot access to {filename}: no such file or directory")
 
 
-def prepare_file(filename, debug=False):
+def prepare_file(filename, debug=False, mac=False):
     file_type = magic.from_file(filename, mime=True)
     if debug:
         print(f"{filename}, {file_type}")
 
     if file_type in IMAGE_FORMATS:
         im = Image.open(filename)
+        if debug:
+            print(im.getpixel((0, 0)))
+            print(f"in mode picure: {im.mode}")
+            print(f"request mac mode: {mac}")
 
         if type(im.getpixel((0, 0))) is int:
-            im = im.convert("RGBA")
-
+            im = im.convert("RGB")
+        
         width, height = im.size
 
         if width > 64 and height > 64:
             im = resize(im, debug)
-        im = image_to_ascii(im)
+        if mac :
+            im = im.convert('RGB')
+        im = image_to_ascii(im, mac=mac)
     else:
         im = "Invalid file type"
         
     return im
 
 
-def save_file(filename, debug=False):
-    ascii_image = prepare_file(filename, debug=debug)
+def save_file(filename, debug=False, mac=False):
+    ascii_image = prepare_file(filename, debug=debug, mac=mac)
 
     if ascii_image:
         save_ascii(ascii_image, os.path.split(filename)[-1])

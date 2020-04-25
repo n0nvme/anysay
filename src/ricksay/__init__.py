@@ -23,6 +23,12 @@ def arg_parse() -> argparse.Namespace:
         type=argparse.FileType("r"),
     )
     parser.add_argument(
+        "-m",
+        "--mac",
+        help="Generation ",
+        action='store_true',
+    )
+    parser.add_argument(
         "string",
         help="return random pics with your string",
         nargs="*",
@@ -39,7 +45,7 @@ def main():
     debug = args_main.verbose
     if debug:
         print(args_main)
-
+    mac = args_main.mac
     if args_main.add_files:
 
         if debug:
@@ -47,7 +53,7 @@ def main():
         add_files(args_main.add_files)
 
     elif args_main.preview:
-        print(prepare_file(args_main.preview.name, debug=debug))
+        print(prepare_file(args_main.preview.name, debug=debug, mac=mac))
 
     elif args_main.string:
 
@@ -76,11 +82,15 @@ def main():
                     )
                 ),
                 debug=debug,
+                mac=mode,
             )
             print("ready")
             say(debug=debug)
             result = " ".join(args_main.string)
             print(result)
 
+
+if __name__ == "__main__":
+    main()
 
 __all__ = ["main"]
