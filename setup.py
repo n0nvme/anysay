@@ -14,7 +14,8 @@ install_requires = \
 ['colored>=1.4.2,<2.0.0',
  'pillow>=7.0,<8.0',
  'python-magic>=0.4.15,<0.5.0',
- 'sty>=1.0.0-beta.12,<2.0.0']
+ 'sty>=1.0.0-beta.12,<2.0.0',
+ 'tqdm>=4.46.0,<5.0.0']
 
 entry_points = \
 {'console_scripts': ['ricksay = ricksay:main']}

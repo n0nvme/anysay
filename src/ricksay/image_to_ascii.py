@@ -3,10 +3,11 @@ from colored import bg as bg_c
 from colored import fg as fg_c
 
 from PIL import Image
+from tqdm import tqdm
 from sty import bg, fg, rs
 
 
-def convert_true_color_char(rgba0, rgba1):
+def convert_truecolor_char(rgba0, rgba1):
     top = rgba0[:3]
     bottom = rgba1[:3]
     char = "▄"
@@ -21,18 +22,18 @@ def convert_true_color_char(rgba0, rgba1):
 
 
 def rgb2hex(r, g, b):
-    return '#{:02x}{:02x}{:02x}'.format(r, g, b)
+    return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 
-def convert_216_color_char(hex_bg, hex_fg):
+def convert_256_color_char(hex_bg, hex_fg):
     color = fg_c(hex_fg) + bg_c(hex_bg)
-    res = attr_c('reset')
+    res = attr_c("reset")
     char = "▄"
     result = color + char + res
     return result
 
 
-def image_to_ascii(image: Image, mac=True):
+def image_to_ascii(image: Image, color):
     result = ""
 
     for y in range(0, image.size[1], 2):
@@ -44,11 +45,11 @@ def image_to_ascii(image: Image, mac=True):
                 rgba1 = image.getpixel((0, 0))
 
             rgba0 = image.getpixel((x, y))
-            if mac:
+            if color == "xterm256":
                 hex_bg = rgb2hex(*rgba0)
                 hex_fg = rgb2hex(*rgba1)
-                string += convert_216_color_char(hex_bg, hex_fg)
-            else: 
-                string += convert_true_color_char(rgba0, rgba1)
+                string += convert_256_color_char(hex_bg, hex_fg)
+            elif color == "truecolor":
+                string += convert_truecolor_char(rgba0, rgba1)
         result += string + "\n"
     return result
