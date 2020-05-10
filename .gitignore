@@ -16,3 +16,5 @@ src/jpg
 rickgen/ready/*
 rickgen/source/*
 ricks/*
+color-spaces.pl
+truecolor_test.sh
