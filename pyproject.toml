@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ricksay"
+name = "anysay"
 version = "0.1.0"
 description = ""
 authors = ["n0nvme <svmpl3nvm3@gmail.com>"]
@@ -23,7 +23,7 @@ rope = "^0.11.0"
 
 
 [tool.poetry.scripts]
-ricksay = 'ricksay:main'
+anysay = 'anysay:main'
 
 [build-system]
 requires = ["poetry>=0.12"]
