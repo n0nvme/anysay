@@ -2,7 +2,10 @@
 name = "anysay"
 version = "0.1.0"
 description = ""
+license = "MIT"
+readme = "README.md"
 authors = ["n0nvme <svmpl3nvm3@gmail.com>"]
+homepage = "https://github.com/n0nvme/anysay"
 
 [tool.poetry.dependencies]
 python = "^3.7"
