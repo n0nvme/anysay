@@ -54,20 +54,17 @@ def normalization_files_list(filesname: list) -> list:
     return result
 
 
-def add_files(filesname: list, debug=False):
+def add_files(filenames: list, debug=False):
     check_dir()
 
-    if type(filenames) is str:
+    if isinstance(filenames, str):
         filenames = [filenames]
 
-    filesname = normalization_files_list(filesname)
+    filenames = normalization_files_list(filenames)
     if debug:
-        print(filesname)
-    # outer = tqdm.tqdm(total=len(filesname), desc="Files", position=0)
-    for filename in tqdm(filesname, desc="Files"):
+        print(filenames)
+    for filename in tqdm(filenames, desc="Files"):
         save_file(filename, debug=debug)
-        # outer.set_description_str(f"Current file: {filename}")
-        # outer.update(1)
 
 
 def prepare_file(filename, color, debug=False):
