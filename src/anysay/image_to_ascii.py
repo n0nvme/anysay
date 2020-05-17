@@ -1,10 +1,15 @@
+from PIL import Image
+from sty import bg, fg, rs
+from tqdm import tqdm
+
+import logging
+
 from colored import attr as attr_c
 from colored import bg as bg_c
 from colored import fg as fg_c
 
-from PIL import Image
-from tqdm import tqdm
-from sty import bg, fg, rs
+
+logger = logging.getLogger(__name__)
 
 
 def convert_truecolor_char(rgba0, rgba1):
@@ -17,6 +22,7 @@ def convert_truecolor_char(rgba0, rgba1):
         bottom = bg.rs
         char = " "
 
+    logger.debug(f"top color: {rgba0} botom color: {rgba1}")
     result = bg(*top) + fg(*bottom) + char + rs.all
     return result
 

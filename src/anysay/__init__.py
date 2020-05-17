@@ -1,12 +1,13 @@
 import argparse
-
+import logging
 import os
 import pathlib
 
-
-from .prepare import prepare_file, add_files
+from .prepare import add_files, prepare_file
 from .say import say
 
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"), format="%(message)s")
+logger = logging.getLogger(__name__)
 
 # FIXME : move workdirs to config file
 WORKDIR = os.path.join(os.getenv("HOME"), ".config/anysay/pics")
@@ -54,6 +55,7 @@ def arg_parse() -> argparse.Namespace:
         default=None,
     )
     parser.add_argument("-V", "--verbose", help="Debug info", action="store_true")
+
     color.add_argument(
         "--truecolor", help="print pic in truecolor mode", action="store_true"
     )
@@ -66,20 +68,19 @@ def arg_parse() -> argparse.Namespace:
 
 def main():
     args_main = arg_parse()
-    debug = args_main.verbose
-    if debug:
-        print(args_main)
+    if args_main.verbose:
+        logger.setLevel(logging.DEBUG)
+    logger.debug(args_main)
 
     color = get_color_terminal(args_main)
 
     if args_main.add_files:
 
-        if debug:
-            print(args_main.add_files)
+        logger.debug(args_main.add_files)
         add_files(args_main.add_files)
 
     elif args_main.preview:
-        print(prepare_file(args_main.preview.name, color=color, debug=debug))
+        print(prepare_file(args_main.preview.name, color=color))
 
     elif args_main.string:
         pictires_exist = True
@@ -88,35 +89,32 @@ def main():
                 pictires_exist = False
 
         if pictires_exist:
-            say(color, debug=debug)
+            say(color)
             result = " ".join(args_main.string)
             print(result)
 
         else:
             for DIR in [xterm256, truecolor]:
                 if not os.path.isdir(DIR) or len(os.listdir(DIR)) == 0:
-                    print(
+                    logger.info(
                         f"not found pictures in {DIR}\ngenerating default pictures to {DIR}..."
                     )
-                    if debug:
-                        print(
-                            os.path.normpath(
-                                os.path.join(
-                                    pathlib.Path(__file__).parent.absolute(),
-                                    "default_pics",
-                                )
+                    logger.debug(
+                        os.path.normpath(
+                            os.path.join(
+                                pathlib.Path(__file__).parent.absolute(), "default_pics"
                             )
                         )
+                    )
                     add_files(
                         os.path.normpath(
                             os.path.join(
                                 pathlib.Path(__file__).parent.absolute(), "default_pics"
                             )
-                        ),
-                        debug=debug,
+                        )
                     )
                     print("ready")
-                    say(color, debug=debug)
+                    say(color)
                     result = " ".join(args_main.string)
                     print(result)
 

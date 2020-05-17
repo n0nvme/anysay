@@ -1,12 +1,14 @@
+import logging
 import os
 
 import magic
-from tqdm import tqdm
 from PIL import Image
+from tqdm import tqdm
 
-from .resize import resize
 from .image_to_ascii import image_to_ascii
+from .resize import resize
 
+logger = logging.getLogger(__name__)
 # FIXME : move parameters to config file
 IMAGE_FORMATS = ["image/png", "image/jpeg"]
 WORKDIR = os.path.join(os.getenv("HOME"), ".config/anysay/pics")
@@ -54,41 +56,36 @@ def normalization_files_list(filesname: list) -> list:
     return result
 
 
-def add_files(filesname: list, debug=False):
+def add_files(filesname: list):
     check_dir()
 
     if type(filenames) is str:
         filenames = [filenames]
 
     filesname = normalization_files_list(filesname)
-    if debug:
-        print(filesname)
-    # outer = tqdm.tqdm(total=len(filesname), desc="Files", position=0)
+    logger.debug(filesname)
     for filename in tqdm(filesname, desc="Files"):
-        save_file(filename, debug=debug)
-        # outer.set_description_str(f"Current file: {filename}")
-        # outer.update(1)
+        save_file(filename)
 
 
-def prepare_file(filename, color, debug=False):
+def prepare_file(filename, color):
     file_type = magic.from_file(filename, mime=True)
-    if debug:
-        print(f"{filename}, {file_type}")
+    logger.debug(f"{filename}, {file_type}")
 
     if file_type in IMAGE_FORMATS:
         im = Image.open(filename)
-        if debug:
-            print(im.getpixel((0, 0)))
-            print(f"in mode picure: {im.mode}")
-            print(f"requirement color is {color}")
+        logger.debug(f"First pixel is {im.getpixel((0, 0))}")
+        logger.debug(f"Picure color type: {im.mode}")
+        logger.debug(f"Requirement color is {color}")
 
         if type(im.getpixel((0, 0))) is int:
             im = im.convert("RGB")
-
         width, height = im.size
 
         if width > 64 and height > 64:
-            im = resize(im, debug)
+            im = resize(im)
+            logger.debug(f"color after resize { im.getpixel((0, 0))}")
+
         if color == "xterm256":
             im = im.convert("RGB")
         im = image_to_ascii(im, color)
@@ -98,11 +95,11 @@ def prepare_file(filename, color, debug=False):
     return im
 
 
-def save_file(filename, debug=False):
+def save_file(filename):
     for color in tqdm(
         colors, desc=f"generating file {os.path.split(filename)[-1]}", leave=False
     ):
-        ascii_image = prepare_file(filename, color=color, debug=debug)
+        ascii_image = prepare_file(filename, color=color)
 
         if ascii_image:
             save_ascii(ascii_image, os.path.split(filename)[-1], save_dir=colors[color])

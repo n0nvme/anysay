@@ -1,12 +1,15 @@
+import logging
+
 from PIL import Image
 
+logger = logging.getLogger(__name__)
 
-def pixel_size(image: Image.Image, debug=False, noise=3):
+
+def pixel_size(image: Image.Image, noise=3):
     listsize = []
     tempRGB0 = image.getpixel((0, 0))
 
-    if debug:
-        print(tempRGB0)
+    logger.debug(tempRGB0)
 
     min_y = None
     max_y = None
@@ -92,24 +95,20 @@ def pixel_size(image: Image.Image, debug=False, noise=3):
                 maxcount[1] = tsize
             count = 0
 
-    if debug:
-        print(maxcount)
+    logger.debug(maxcount)
 
     return maxcount[1] - 1
 
 
-def resize(source_image: Image.Image, debug=False, result_name="debug_image.png"):
-    if debug:
-        print(source_image.size)
-
+def resize(source_image: Image.Image, result_name="debug_image.png"):
+    logger.debug(source_image.size)
     _, height = source_image.size
+    scale_factor = pixel_size(source_image)
 
-    scale_factor = pixel_size(source_image, debug=debug)
     if not scale_factor or height // scale_factor > 65:
         scale_factor = height // 56
 
-    if debug:
-        print(scale_factor)
+    logger.debug(scale_factor)
 
     half = Image.new("RGBA", tuple([int(d // scale_factor) for d in source_image.size]))
 
@@ -117,17 +116,10 @@ def resize(source_image: Image.Image, debug=False, result_name="debug_image.png"
         for j in range(source_image.size[1]):
             if i % scale_factor == 0 and j % scale_factor == 0:
                 try:
-
-                    if debug:
-                        print(source_image.getpixel((i, j)))
-
                     half.putpixel(
                         (int(i // scale_factor), int(j // scale_factor)),
                         source_image.getpixel((i, j)),
                     )
                 except:
                     pass
-    if debug:
-        half.save(result_name)
-
     return half
