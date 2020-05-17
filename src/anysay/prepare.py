@@ -59,8 +59,8 @@ def normalization_files_list(filesname: list) -> list:
 def add_files(filesname: list):
     check_dir()
 
-    if type(filenames) is str:
-        filenames = [filenames]
+    if type(filesname) is str:
+        filesname = [filesname]
 
     filesname = normalization_files_list(filesname)
     logger.debug(filesname)
