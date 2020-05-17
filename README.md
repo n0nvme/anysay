@@ -16,11 +16,16 @@ python setup.py install
 
 
 ## Development
-requirements:
+
+code style - [black](https://github.com/psf/black)
+
+### Requirements:
 - [poetry](https://github.com/python-poetry/poetry)
 - [pyenv](https://github.com/pyenv/pyenv)
 - python ^3.7
 
+
+### Installation
 
 ```bash
 git clone https://github.com/n0nvme/anysay.git
@@ -30,5 +35,3 @@ poetry install
 poetry run anysay
 ```
 
-
-code style - [black](https://github.com/psf/black)
