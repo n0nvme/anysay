@@ -20,7 +20,7 @@ def say(color):
     logger.debug(f"take file from {pics_path}")
 
     if not os.path.exists(pics_path):
-        print("NO SUCH PATH")
+        logger.warning("NO SUCH PATH")
         return None
 
     pics = os.listdir(pics_path)

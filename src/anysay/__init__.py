@@ -113,7 +113,7 @@ def main():
                             )
                         )
                     )
-                    print("ready")
+                    logger.info("ready")
                     say(color)
                     result = " ".join(args_main.string)
                     print(result)

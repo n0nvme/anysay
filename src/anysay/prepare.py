@@ -22,7 +22,7 @@ colors = {"xterm256": xterm256, "truecolor": truecolor}
 def check_dir():
     for DIR in [WORKDIR, xterm256, truecolor]:
         if not os.path.isdir(DIR):
-            print(f"mkdir {DIR}")
+            logger.info(f"mkdir {DIR}")
             os.makedirs(DIR)
 
 
@@ -52,7 +52,7 @@ def normalization_files_list(filesname: list) -> list:
         elif os.path.isfile(filename):
             result.append(filename)
         else:
-            print(f"Cannot access to {filename}: no such file or directory")
+            logger.warning(f"Cannot access to {filename}: no such file or directory")
     return result
 
 

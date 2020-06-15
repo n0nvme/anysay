@@ -16,13 +16,14 @@ def convert_truecolor_char(rgba0, rgba1):
     top = rgba0[:3]
     bottom = rgba1[:3]
     char = "▄"
+
     if len(rgba0) > 3 and rgba0[3] == 0:
         top = fg.rs
     if len(rgba1) > 3 and rgba1[3] == 0:
         bottom = bg.rs
         char = " "
 
-    logger.debug(f"top color: {rgba0} botom color: {rgba1}")
+    # logger.debug(f"top color: {rgba0} botom color: {rgba1}")
     result = bg(*top) + fg(*bottom) + char + rs.all
     return result
 

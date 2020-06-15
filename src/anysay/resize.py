@@ -9,7 +9,7 @@ def pixel_size(image: Image.Image, noise=3):
     listsize = []
     tempRGB0 = image.getpixel((0, 0))
 
-    logger.debug(tempRGB0)
+    # logger.debug(tempRGB0)
 
     min_y = None
     max_y = None
@@ -95,20 +95,20 @@ def pixel_size(image: Image.Image, noise=3):
                 maxcount[1] = tsize
             count = 0
 
-    logger.debug(maxcount)
+    # logger.debug(maxcount)
 
     return maxcount[1] - 1
 
 
 def resize(source_image: Image.Image, result_name="debug_image.png"):
-    logger.debug(source_image.size)
+    # logger.debug(source_image.size)
     _, height = source_image.size
     scale_factor = pixel_size(source_image)
 
     if not scale_factor or height // scale_factor > 65:
         scale_factor = height // 56
 
-    logger.debug(scale_factor)
+    logger.debug(f"scale factor image is: {scale_factor}")
 
     half = Image.new("RGBA", tuple([int(d // scale_factor) for d in source_image.size]))
 
