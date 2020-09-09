@@ -2,10 +2,12 @@ import logging
 import os
 import random
 
+from .image_to_ascii import bordered_message
+
 logger = logging.getLogger(__name__)
 
 
-def say(color):
+def say(color, message):
 
     if color == "truecolor":
         pics_path = os.path.join(os.getenv("HOME"), ".config/anysay/pics/true_color")
@@ -28,4 +30,11 @@ def say(color):
     random_pic = f"{pics_path}/{pics[random_pic]}"
     logger.debug(f"print pics is {random_pic}")
     with open(random_pic, "r") as f:
-        print(f.read())
+        ascii_image = f.read()
+    lines_image = ascii_image.split("\n")
+    lines_messages = bordered_message(message, (123, 123, 123, 1), color).split("\n")
+    result = ""
+    for line_im in lines_image:
+        result += f"{line_im}{lines_messages.pop() if lines_messages else ''}\n"
+
+    print(result)

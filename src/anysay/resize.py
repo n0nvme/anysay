@@ -100,7 +100,7 @@ def pixel_size(image: Image.Image, noise=3):
     return maxcount[1] - 1
 
 
-def resize(source_image: Image.Image, result_name="debug_image.png"):
+def resize(source_image: Image.Image, result_name="debug_image.png") -> Image:
     # logger.debug(source_image.size)
     _, height = source_image.size
     scale_factor = pixel_size(source_image)
@@ -122,4 +122,54 @@ def resize(source_image: Image.Image, result_name="debug_image.png"):
                     )
                 except:
                     pass
+
     return half
+
+
+def cut_image(image: Image.Image) -> Image:
+    right, bottom = image.size
+    print(image.size)
+    top = 0
+    top_pixel, bottom_pixel, right_pixel, left_pixel = False, False, False, False
+    for height_pointer in range(top, bottom):
+        x = 0
+        image_colors_on_line = [
+            image.getpixel((i, height_pointer)) for i in range(right)
+        ]
+        for color_pixel in image_colors_on_line:
+            r, g, b, _ = color_pixel
+            color_summ = r + g + b
+
+            if color_summ != 0:
+                if not top_pixel:
+                    top_pixel = height_pointer
+
+                if not left_pixel:
+                    left_pixel = x
+                elif x < left_pixel:
+                    left_pixel = x
+
+                if x > right_pixel:
+                    right_pixel = x
+
+                if bottom_pixel:
+                    bottom_pixel = height_pointer
+            if color_summ == 0:
+                if top_pixel and not bottom_pixel:
+                    bottom_pixel = height_pointer
+            x += 1
+    print(left_pixel, top_pixel, right_pixel, bottom_pixel)
+
+    only_image = image.crop((left_pixel, top_pixel, right_pixel, bottom_pixel))
+
+    return only_image
+
+
+def asci_border(asci_image: str) -> str:
+    result_image = "\n\n"
+    image_lines = asci_image.split("\n")
+
+    for line in image_lines:
+        result_image += "    " + line + "\n"
+
+    return result_image

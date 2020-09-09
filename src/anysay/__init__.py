@@ -89,9 +89,8 @@ def main():
                 pictires_exist = False
 
         if pictires_exist:
-            say(color)
-            result = " ".join(args_main.string)
-            print(result)
+            message = " ".join(args_main.string)
+            say(color, message)
 
         else:
             for DIR in [xterm256, truecolor]:
@@ -114,9 +113,8 @@ def main():
                         )
                     )
                     logger.info("ready")
-                    say(color)
-                    result = " ".join(args_main.string)
-                    print(result)
+                    message = " ".join(args_main.string)
+                    say(color, message)
 
 
 if __name__ == "__main__":

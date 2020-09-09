@@ -6,7 +6,7 @@ from PIL import Image
 from tqdm import tqdm
 
 from .image_to_ascii import image_to_ascii
-from .resize import resize
+from .resize import resize, cut_image
 
 logger = logging.getLogger(__name__)
 # FIXME : move parameters to config file
@@ -84,10 +84,12 @@ def prepare_file(filename, color):
 
         if width > 64 and height > 64:
             im = resize(im)
-            logger.debug(f"color after resize { im.getpixel((0, 0))}")
+            logger.debug(f"color after resize {im.getpixel((0, 0))}")
 
         if color == "xterm256":
             im = im.convert("RGB")
+        im = cut_image(im)
+
         im = image_to_ascii(im, color)
     else:
         im = "Invalid file type"
@@ -96,9 +98,9 @@ def prepare_file(filename, color):
 
 
 def save_file(filename):
-    for color in tqdm(
-        colors, desc=f"generating file {os.path.split(filename)[-1]}", leave=False
-    ):
+    tqdm_desc = f"generating file {os.path.split(filename)[-1]}"
+
+    for color in tqdm(colors, desc=tqdm_desc, leave=False):
         ascii_image = prepare_file(filename, color=color)
 
         if ascii_image:
