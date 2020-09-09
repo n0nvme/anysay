@@ -128,7 +128,6 @@ def resize(source_image: Image.Image, result_name="debug_image.png") -> Image:
 
 def cut_image(image: Image.Image) -> Image:
     right, bottom = image.size
-    print(image.size)
     top = 0
     top_pixel, bottom_pixel, right_pixel, left_pixel = False, False, False, False
     for height_pointer in range(top, bottom):
@@ -137,7 +136,12 @@ def cut_image(image: Image.Image) -> Image:
             image.getpixel((i, height_pointer)) for i in range(right)
         ]
         for color_pixel in image_colors_on_line:
-            r, g, b, _ = color_pixel
+
+            if len(color_pixel) > 3:
+                r, g, b, _ = color_pixel
+            else:
+                r, g, b = color_pixel
+
             color_summ = r + g + b
 
             if color_summ != 0:
@@ -158,7 +162,6 @@ def cut_image(image: Image.Image) -> Image:
                 if top_pixel and not bottom_pixel:
                     bottom_pixel = height_pointer
             x += 1
-    print(left_pixel, top_pixel, right_pixel, bottom_pixel)
 
     only_image = image.crop((left_pixel, top_pixel, right_pixel, bottom_pixel))
 
